@@ -1,0 +1,38 @@
+import { LoginProvider } from "./providers/login-state-provider";
+import QueryProvider from "./providers/query-client-provider";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "./components/ui/sonner";
+import ProtectedRoute from "./providers/protected-route";
+import AdminLayout from "./components/admin-layout";
+import LoginPage from "./pages/login/login-page";
+import DashboardPage from "./pages/dashboard/dashboard-page";
+import ProfileListPage from "./pages/profiles/profile-list-page";
+import ProfileDetailPage from "./pages/profiles/profile-detail-page";
+import ProfileCreatePage from "./pages/profiles/profile-create-page";
+import ProfileEditPage from "./pages/profiles/profile-edit-page";
+
+function App() {
+	return (
+		<QueryProvider>
+			<LoginProvider>
+				<BrowserRouter>
+					<Toaster />
+					<Routes>
+						<Route path="/login" element={<LoginPage />} />
+						<Route path="/" element={<ProtectedRoute />}>
+							<Route path="/" element={<AdminLayout />}>
+								<Route index element={<DashboardPage />} />
+								<Route path="profiles" element={<ProfileListPage />} />
+								<Route path="profiles/create" element={<ProfileCreatePage />} />
+								<Route path="profiles/:id" element={<ProfileDetailPage />} />
+								<Route path="profiles/:id/edit" element={<ProfileEditPage />} />
+							</Route>
+						</Route>
+					</Routes>
+				</BrowserRouter>
+			</LoginProvider>
+		</QueryProvider>
+	);
+}
+
+export default App;
