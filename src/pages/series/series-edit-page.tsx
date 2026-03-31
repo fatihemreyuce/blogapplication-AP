@@ -1,0 +1,81 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { ArrowLeft, ArrowRight, BookOpen, Link2, Loader2, AlignLeft, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useSeriesDetail, useUpdateSeries } from "@/hooks/use-series";
+import { cn } from "@/lib/utils";
+import { SeriesCoverUploader } from "@/components/series/series-cover-uploader";
+
+const toSlug = (value: string) =>
+  value.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
+
+export default function SeriesEditPage() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { data: series, isLoading } = useSeriesDetail(id ?? "");
+  const updateMutation = useUpdateSeries();
+  const [ready, setReady] = useState(false);
+  const [form, setForm] = useState({ title: "", slug: "", description: "", cover_image: "", author_id: "" });
+
+  useEffect(() => {
+    if (series && !ready) {
+      setForm({
+        title: series.title,
+        slug: series.slug,
+        description: series.description ?? "",
+        cover_image: series.cover_image ?? "",
+        author_id: series.author_id ?? "",
+      });
+      setReady(true);
+    }
+  }, [series, ready]);
+
+  const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
+  const isPending = updateMutation.isPending;
+
+  if (isLoading) return <div className="h-64 animate-pulse rounded-2xl bg-muted" />;
+  if (!series) return <div className="rounded-2xl border border-dashed border-border/50 bg-card py-20 text-center"><p className="text-lg font-semibold">Seri bulunamadı</p></div>;
+
+  return (
+    <div className="animate-fade-in space-y-6 p-1">
+      <button onClick={() => navigate(`/series/${id}`)} className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Series Detail</button>
+      <div><h1 className="text-2xl font-bold">Seriyi Düzenle</h1><p className="mt-1 text-sm text-muted-foreground">Mevcut seri bilgilerini güncelleyin.</p></div>
+      <form onSubmit={async (e) => {
+        e.preventDefault();
+        if (!id) return;
+        try {
+          await updateMutation.mutateAsync({ id, data: { title: form.title.trim(), slug: toSlug(form.slug || form.title), description: form.description.trim() || null, cover_image: form.cover_image.trim() || null, author_id: form.author_id.trim() || null } });
+          toast.success("Seri güncellendi.");
+          navigate(`/series/${id}`);
+        } catch (err) {
+          toast.error(err instanceof Error ? err.message : "Güncellenemedi.");
+        }
+      }}>
+        <div className="overflow-hidden rounded-2xl border border-border/50 bg-card">
+          <div className="h-1 bg-gradient-to-r from-emerald-500 via-blue-500 to-violet-500" />
+          <div className="space-y-5 p-6 sm:p-8">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5"><Label className="flex items-center gap-1.5"><BookOpen className="h-3.5 w-3.5 text-muted-foreground" />Başlık</Label><Input value={form.title} onChange={(e) => set("title")(e.target.value)} required disabled={isPending} /></div>
+              <div className="space-y-1.5"><Label className="flex items-center gap-1.5"><Link2 className="h-3.5 w-3.5 text-muted-foreground" />Slug</Label><Input value={form.slug} onChange={(e) => set("slug")(e.target.value)} required disabled={isPending} /></div>
+              <div className="space-y-1.5"><Label className="text-sm font-medium">Kapak Resmi (opsiyonel)</Label><SeriesCoverUploader value={form.cover_image} onChange={(url) => set("cover_image")(url)} disabled={isPending} /></div>
+              <div className="space-y-1.5"><Label className="flex items-center gap-1.5"><User className="h-3.5 w-3.5 text-muted-foreground" />Author ID (opsiyonel)</Label><Input value={form.author_id} onChange={(e) => set("author_id")(e.target.value)} disabled={isPending} /></div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="flex items-center gap-1.5"><AlignLeft className="h-3.5 w-3.5 text-muted-foreground" />Açıklama</Label>
+              <textarea value={form.description} onChange={(e) => set("description")(e.target.value)} rows={4} disabled={isPending} className={cn("w-full resize-none rounded-xl border border-border/60 bg-muted/30 px-3 py-2.5 text-sm outline-none", "focus:border-brand-blue/60 focus:ring-2 focus:ring-brand-blue/20")} />
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-3 border-t border-border/40 bg-muted/20 px-6 py-4 sm:px-8">
+            <Button type="button" variant="outline" onClick={() => navigate(`/series/${id}`)} disabled={isPending}>İptal</Button>
+            <Button type="submit" disabled={isPending} className="gap-2 border-0 text-white" style={{ background: "linear-gradient(135deg,#10b981,#3b82f6,#8b5cf6)" }}>
+              {isPending ? <><Loader2 className="h-4 w-4 animate-spin" />Kaydediliyor...</> : <>Değişiklikleri Kaydet<ArrowRight className="h-4 w-4" /></>}
+            </Button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

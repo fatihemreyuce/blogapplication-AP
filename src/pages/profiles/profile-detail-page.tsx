@@ -232,10 +232,16 @@ export default function ProfileDetailPage() {
               delay="50ms"
             />
             <InfoCard
+              icon={User}
+              label="ID"
+              value={<span className="font-mono text-xs">{profile.id}</span>}
+              delay="100ms"
+            />
+            <InfoCard
               icon={AlignLeft}
               label="Bio"
               value={profile.bio}
-              delay="100ms"
+              delay="150ms"
             />
             <InfoCard
               icon={Calendar}
@@ -245,7 +251,7 @@ export default function ProfileDetailPage() {
                 month: "long",
                 day: "numeric",
               })}
-              delay="150ms"
+              delay="200ms"
             />
           </div>
         </>

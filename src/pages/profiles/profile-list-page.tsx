@@ -216,6 +216,9 @@ function ProfileCard({
             <p className="truncate text-xs text-muted-foreground">
               @{profile.username}
             </p>
+            <p className="mt-0.5 truncate font-mono text-[11px] text-muted-foreground/80">
+              ID: {profile.id}
+            </p>
             <p className="mt-0.5 truncate text-xs text-muted-foreground">
               {profile.bio ?? "Biyografi yok"}
             </p>

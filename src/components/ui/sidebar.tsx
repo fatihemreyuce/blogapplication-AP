@@ -5,11 +5,10 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   FileText,
+  BookOpen,
   FolderOpen,
   Tag,
-  ImageIcon,
   Users,
-  Settings,
   LogOut,
   PenLine,
   Loader2,
@@ -35,9 +34,8 @@ const navigationItems: NavItem[] = [
   { to: "/posts",      label: "Posts",      icon: FileText,                   group: "Content" },
   { to: "/categories", label: "Categories", icon: FolderOpen,                 group: "Content" },
   { to: "/tags",       label: "Tags",       icon: Tag,                        group: "Content" },
-  { to: "/media",      label: "Media",      icon: ImageIcon,                  group: "Content" },
+  { to: "/series",     label: "Series",     icon: BookOpen,                   group: "Content" },
   { to: "/profiles",   label: "Profiles",   icon: Users,                      group: "System"  },
-  { to: "/settings",   label: "Settings",   icon: Settings,                   group: "System"  },
 ];
 
 /* ── Single nav item ──────────────────────────────────── */
