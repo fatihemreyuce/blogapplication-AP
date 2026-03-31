@@ -10,6 +10,10 @@ import ProfileListPage from "./pages/profiles/profile-list-page";
 import ProfileDetailPage from "./pages/profiles/profile-detail-page";
 import ProfileCreatePage from "./pages/profiles/profile-create-page";
 import ProfileEditPage from "./pages/profiles/profile-edit-page";
+import CategoryListPage from "./pages/categories/category-list-page";
+import CategoryCreatePage from "./pages/categories/category-create-page";
+import CategoryDetailPage from "./pages/categories/category-detail-page";
+import CategoryEditPage from "./pages/categories/category-edit-page";
 
 function App() {
 	return (
@@ -26,6 +30,10 @@ function App() {
 								<Route path="profiles/create" element={<ProfileCreatePage />} />
 								<Route path="profiles/:id" element={<ProfileDetailPage />} />
 								<Route path="profiles/:id/edit" element={<ProfileEditPage />} />
+								<Route path="categories" element={<CategoryListPage />} />
+								<Route path="categories/create" element={<CategoryCreatePage />} />
+								<Route path="categories/:id" element={<CategoryDetailPage />} />
+								<Route path="categories/:id/edit" element={<CategoryEditPage />} />
 							</Route>
 						</Route>
 					</Routes>
