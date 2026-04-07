@@ -9,7 +9,6 @@ import {
   Calendar,
   AlignLeft,
   ShieldCheck,
-  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DeleteProfileModal } from "@/components/profile/delete-profile-modal";
