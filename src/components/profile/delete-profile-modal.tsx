@@ -1,17 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, X, Trash2, ShieldAlert } from "lucide-react";
-import type { Profile, ProfileRole } from "@/types/profile.types";
+import type { Profile } from "@/types/profile.types";
 import { cn } from "@/lib/utils";
-
-/* ── Role config ──────────────────────────────────────── */
-const ROLE_GRADIENT: Record<ProfileRole, string> = {
-  admin:  "linear-gradient(135deg,#10b981,#059669)",
-  editor: "linear-gradient(135deg,#3b82f6,#2563eb)",
-  viewer: "linear-gradient(135deg,#8b5cf6,#7c3aed)",
-};
-const ROLE_LABEL: Record<ProfileRole, string> = {
-  admin: "Admin", editor: "Editor", viewer: "Viewer",
-};
+import { getRoleConfig } from "@/lib/profile-role";
 
 /* ── Avatar initials ──────────────────────────────────── */
 function MiniAvatar({ profile }: { profile: Profile }) {
@@ -29,7 +20,7 @@ function MiniAvatar({ profile }: { profile: Profile }) {
   return (
     <div
       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-      style={{ background: ROLE_GRADIENT[profile.role] }}
+      style={{ background: getRoleConfig(profile.role).gradient }}
     >
       {initials}
     </div>
@@ -200,7 +191,7 @@ export function DeleteProfileModal({
                 <p className="text-xs text-muted-foreground">
                   <span className="font-mono">@{profile.username}</span>
                   <span className="mx-1.5 text-border">·</span>
-                  {ROLE_LABEL[profile.role]}
+                  {getRoleConfig(profile.role).label}
                 </p>
               </div>
               {/* "to be deleted" badge */}

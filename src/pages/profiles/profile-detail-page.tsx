@@ -13,15 +13,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { DeleteProfileModal } from "@/components/profile/delete-profile-modal";
 import { useProfile, useDeleteProfile } from "@/hooks/use-profile";
-import type { Profile, ProfileRole } from "@/types/profile.types";
+import type { Profile } from "@/types/profile.types";
 import { cn } from "@/lib/utils";
-
-/* ── Role config ──────────────────────────────────────── */
-const ROLE_CONFIG: Record<ProfileRole, { label: string; gradient: string; bg: string; text: string }> = {
-  admin:  { label: "Admin",  gradient: "linear-gradient(135deg,#10b981,#059669)", bg: "bg-brand-green/10",   text: "text-brand-green"  },
-  editor: { label: "Editor", gradient: "linear-gradient(135deg,#3b82f6,#2563eb)", bg: "bg-brand-blue/10",    text: "text-brand-blue"   },
-  viewer: { label: "Viewer", gradient: "linear-gradient(135deg,#8b5cf6,#7c3aed)", bg: "bg-brand-purple/10",  text: "text-brand-purple" },
-};
+import { getRoleConfig, heroStripGradientPair } from "@/lib/profile-role";
 
 /* ── Avatar ───────────────────────────────────────────── */
 function ProfileAvatar({ profile }: { profile: Profile }) {
@@ -33,7 +27,7 @@ function ProfileAvatar({ profile }: { profile: Profile }) {
   return (
     <div
       className="flex h-24 w-24 items-center justify-center rounded-2xl text-3xl font-bold text-white shadow-lg"
-      style={{ background: ROLE_CONFIG[profile.role].gradient }}
+      style={{ background: getRoleConfig(profile.role).gradient }}
     >
       {initials}
     </div>
@@ -165,10 +159,7 @@ export default function ProfileDetailPage() {
             <div
               className="h-24 w-full"
               style={{
-                background: `linear-gradient(135deg, ${
-                  profile.role === "admin" ? "#10b981, #3b82f6" :
-                  profile.role === "editor" ? "#3b82f6, #8b5cf6" : "#8b5cf6, #10b981"
-                })`,
+                background: `linear-gradient(135deg, ${heroStripGradientPair(profile.role)})`,
                 opacity: 0.15,
               }}
             />
@@ -188,12 +179,12 @@ export default function ProfileDetailPage() {
               <span
                 className={cn(
                   "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",
-                  ROLE_CONFIG[profile.role].bg,
-                  ROLE_CONFIG[profile.role].text,
+                  getRoleConfig(profile.role).bg,
+                  getRoleConfig(profile.role).text,
                 )}
               >
                 <ShieldCheck className="mr-1 h-3 w-3" />
-                {ROLE_CONFIG[profile.role].label}
+                {getRoleConfig(profile.role).label}
               </span>
               <span
                 className={cn(

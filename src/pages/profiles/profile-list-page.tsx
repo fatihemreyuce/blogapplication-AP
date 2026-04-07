@@ -31,31 +31,7 @@ import {
 } from "@/hooks/use-profile";
 import type { Profile, ProfileRole } from "@/types/profile.types";
 import { cn } from "@/lib/utils";
-
-/* ── Role config ──────────────────────────────────────── */
-const ROLE_CONFIG: Record<
-  ProfileRole,
-  { label: string; gradient: string; bg: string; text: string }
-> = {
-  admin: {
-    label: "Admin",
-    gradient: "linear-gradient(135deg, #10b981, #059669)",
-    bg: "bg-brand-green/10",
-    text: "text-brand-green",
-  },
-  editor: {
-    label: "Editor",
-    gradient: "linear-gradient(135deg, #3b82f6, #2563eb)",
-    bg: "bg-brand-blue/10",
-    text: "text-brand-blue",
-  },
-  viewer: {
-    label: "Viewer",
-    gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)",
-    bg: "bg-brand-purple/10",
-    text: "text-brand-purple",
-  },
-};
+import { getRoleConfig } from "@/lib/profile-role";
 
 /* ── Avatar initials ──────────────────────────────────── */
 function ProfileAvatar({
@@ -73,7 +49,7 @@ function ProfileAvatar({
     .join("")
     .substring(0, 2)
     .toUpperCase();
-  const gradient = ROLE_CONFIG[profile.role].gradient;
+  const gradient = getRoleConfig(profile.role).gradient;
 
   if (profile.avatar_url) {
     return (
@@ -98,8 +74,8 @@ function ProfileAvatar({
 }
 
 /* ── Role badge ───────────────────────────────────────── */
-function RoleBadge({ role }: { role: ProfileRole }) {
-  const c = ROLE_CONFIG[role];
+function RoleBadge({ role }: { role: string | null | undefined }) {
+  const c = getRoleConfig(role);
   return (
     <span
       className={cn(
@@ -196,7 +172,7 @@ function ProfileCard({
   onEdit: () => void;
   onDelete: () => void;
 }) {
-  const roleConf = ROLE_CONFIG[profile.role];
+  const roleConf = getRoleConfig(profile.role);
   return (
     <div
       className="animate-scale-in group relative overflow-hidden rounded-2xl border border-border/50 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-[0_8px_32px_rgba(59,130,246,0.12)]"
