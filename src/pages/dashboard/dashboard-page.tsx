@@ -245,6 +245,11 @@ export default function DashboardPage() {
     { name: "Aktif Profil", value: profileStats.data?.active ?? 0 },
     { name: "Admin", value: profileStats.data?.admins ?? 0 },
   ];
+  const healthDataMobile = [
+    { name: "Toplam", value: totals.profiles },
+    { name: "Aktif", value: profileStats.data?.active ?? 0 },
+    { name: "Admin", value: profileStats.data?.admins ?? 0 },
+  ];
 
   const activityRows = [
     ...(recentPosts.data?.data ?? []).map((p) => ({
@@ -546,9 +551,12 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Profil Sağlığı</CardTitle>
           </CardHeader>
-          <CardContent className="h-[280px]">
+          <CardContent className="h-[240px] sm:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={healthData}>
+              <AreaChart
+                data={isMobile ? healthDataMobile : healthData}
+                margin={{ top: 8, right: isMobile ? 8 : 18, left: isMobile ? -16 : 0, bottom: 0 }}
+              >
                 <defs>
                   <linearGradient id="profileGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.9} />
@@ -556,8 +564,8 @@ export default function DashboardPage() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis allowDecimals={false} />
+                <XAxis dataKey="name" tick={{ fontSize: isMobile ? 10 : 12 }} interval={0} />
+                <YAxis allowDecimals={false} width={isMobile ? 20 : 30} />
                 <Tooltip />
                 <Area
                   type="monotone"
