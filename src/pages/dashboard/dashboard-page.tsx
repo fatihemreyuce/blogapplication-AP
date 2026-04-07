@@ -1,4 +1,4 @@
-import { useMemo, type ComponentType } from "react";
+import { useEffect, useMemo, useState, type ComponentType } from "react";
 import {
   Area,
   AreaChart,
@@ -155,6 +155,16 @@ function FancyTooltip({
 }
 
 export default function DashboardPage() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 640 : false,
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const navigate = useNavigate();
   const postStats = usePostStats();
   const seriesStats = useSeriesStats();
@@ -351,7 +361,7 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle>Etkileşim Grafiği</CardTitle>
             </CardHeader>
-            <CardContent className="h-[360px] 2xl:h-[400px]">
+            <CardContent className="h-[300px] sm:h-[360px] 2xl:h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={engagementData}>
                   <defs>
@@ -365,33 +375,41 @@ export default function DashboardPage() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip content={<FancyTooltip />} />
-                  <Area
-                    type="monotone"
-                    dataKey="trend"
-                    name="Trend"
-                    stroke="#8b5cf6"
-                    strokeWidth={2}
-                    fill="url(#engArea)"
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: isMobile ? 10 : 12 }}
+                    interval={0}
                   />
+                  <YAxis allowDecimals={false} hide={isMobile} />
+                  <Tooltip content={<FancyTooltip />} />
+                  {!isMobile && (
+                    <Area
+                      type="monotone"
+                      dataKey="trend"
+                      name="Trend"
+                      stroke="#8b5cf6"
+                      strokeWidth={2}
+                      fill="url(#engArea)"
+                    />
+                  )}
                   <Bar
                     dataKey="bar"
                     name="Gerçek"
                     radius={[10, 10, 0, 0]}
                     fill="url(#engBar)"
-                    barSize={38}
+                    barSize={isMobile ? 22 : 38}
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="goal"
-                    name="Hedef"
-                    stroke="#10b981"
-                    strokeWidth={2}
-                    strokeDasharray="6 4"
-                    dot={{ r: 3 }}
-                  />
+                  {!isMobile && (
+                    <Line
+                      type="monotone"
+                      dataKey="goal"
+                      name="Hedef"
+                      stroke="#10b981"
+                      strokeWidth={2}
+                      strokeDasharray="6 4"
+                      dot={{ r: 3 }}
+                    />
+                  )}
                 </ComposedChart>
               </ResponsiveContainer>
             </CardContent>
@@ -401,15 +419,15 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle>İçerik Dağılımı</CardTitle>
             </CardHeader>
-            <CardContent className="grid h-[360px] grid-cols-1 gap-3 sm:grid-cols-[1fr_170px] sm:items-center 2xl:h-[400px]">
+            <CardContent className="grid h-[330px] grid-cols-1 gap-3 sm:h-[360px] sm:grid-cols-[1fr_170px] sm:items-center 2xl:h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={contentDistribution}
                     dataKey="value"
                     nameKey="name"
-                    innerRadius={78}
-                    outerRadius={116}
+                    innerRadius={isMobile ? "45%" : 78}
+                    outerRadius={isMobile ? "72%" : 116}
                     cornerRadius={8}
                     paddingAngle={2}
                   >
@@ -417,12 +435,16 @@ export default function DashboardPage() {
                       <Cell key={entry.name} fill={entry.color} />
                     ))}
                   </Pie>
-                  <text x="50%" y="46%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground text-[13px] font-medium">
-                    Toplam
-                  </text>
-                  <text x="50%" y="55%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground text-xl font-bold">
-                    {totalContent}
-                  </text>
+                  {!isMobile && (
+                    <>
+                      <text x="50%" y="46%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground text-[13px] font-medium">
+                        Toplam
+                      </text>
+                      <text x="50%" y="55%" textAnchor="middle" dominantBaseline="middle" className="fill-foreground text-xl font-bold">
+                        {totalContent}
+                      </text>
+                    </>
+                  )}
                   <Tooltip content={<FancyTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
