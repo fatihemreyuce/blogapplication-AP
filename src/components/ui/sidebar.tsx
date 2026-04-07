@@ -9,6 +9,10 @@ import {
   FolderOpen,
   Tag,
   Users,
+  MessageSquareText,
+  Bookmark,
+  Mail,
+  Heart,
   LogOut,
   PenLine,
   Loader2,
@@ -24,18 +28,22 @@ interface NavItem {
 }
 
 const NAV_GROUPS: { label: string; key: NavItem["group"] }[] = [
-  { label: "MAIN",    key: "Main"    },
-  { label: "CONTENT", key: "Content" },
-  { label: "SYSTEM",  key: "System"  },
+  { label: "ANA",      key: "Main"    },
+  { label: "İÇERİK",   key: "Content" },
+  { label: "SİSTEM",   key: "System"  },
 ];
 
 const navigationItems: NavItem[] = [
-  { to: "/",           label: "Dashboard",  icon: LayoutDashboard, end: true, group: "Main"    },
-  { to: "/posts",      label: "Posts",      icon: FileText,                   group: "Content" },
-  { to: "/categories", label: "Categories", icon: FolderOpen,                 group: "Content" },
-  { to: "/tags",       label: "Tags",       icon: Tag,                        group: "Content" },
-  { to: "/series",     label: "Series",     icon: BookOpen,                   group: "Content" },
-  { to: "/profiles",   label: "Profiles",   icon: Users,                      group: "System"  },
+  { to: "/",           label: "Panel",        icon: LayoutDashboard, end: true, group: "Main"    },
+  { to: "/posts",      label: "Yazılar",      icon: FileText,                   group: "Content" },
+  { to: "/categories", label: "Kategoriler",  icon: FolderOpen,                 group: "Content" },
+  { to: "/comments",   label: "Yorumlar",     icon: MessageSquareText,          group: "Content" },
+  { to: "/bookmarks",  label: "Kaydedilenler",icon: Bookmark,                   group: "Content" },
+  { to: "/likes",      label: "Beğeniler",    icon: Heart,                      group: "Content" },
+  { to: "/newsletter-subscribers", label: "Bülten Aboneleri", icon: Mail,       group: "Content" },
+  { to: "/tags",       label: "Etiketler",    icon: Tag,                        group: "Content" },
+  { to: "/series",     label: "Seriler",      icon: BookOpen,                   group: "Content" },
+  { to: "/profiles",   label: "Profiller",    icon: Users,                      group: "System"  },
 ];
 
 /* ── Single nav item ──────────────────────────────────── */
@@ -210,7 +218,7 @@ export default function Sidebar() {
 
         {/* Theme toggle row */}
         <div className="flex items-center justify-between rounded-xl px-3 py-2.5">
-          <span className="text-sm font-medium text-muted-foreground">Theme</span>
+          <span className="text-sm font-medium text-muted-foreground">Tema</span>
           <DarkModeToggle />
         </div>
 
@@ -230,7 +238,7 @@ export default function Sidebar() {
           ) : (
             <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
           )}
-          <span>{isLoading ? "Logging out…" : "Logout"}</span>
+          <span>{isLoading ? "Çıkış yapılıyor…" : "Çıkış Yap"}</span>
         </button>
       </div>
     </aside>

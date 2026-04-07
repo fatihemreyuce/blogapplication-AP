@@ -26,6 +26,20 @@ import PostListPage from "./pages/posts/post-list-page";
 import PostCreatePage from "./pages/posts/post-create-page";
 import PostDetailPage from "./pages/posts/post-detail-page";
 import PostEditPage from "./pages/posts/post-edit-page";
+import CommentListPage from "./pages/comments/comment-list-page";
+import CommentDetailPage from "./pages/comments/comment-detail-page";
+import BookmarkListPage from "./pages/bookmarks/bookmark-list-page";
+import BookmarkCreatePage from "./pages/bookmarks/bookmark-create-page";
+import BookmarkDetailPage from "./pages/bookmarks/bookmark-detail-page";
+import BookmarkEditPage from "./pages/bookmarks/bookmark-edit-page";
+import NewsletterSubscriberListPage from "./pages/newsletter-subscribers/newsletter-subscriber-list-page";
+import NewsletterSubscriberCreatePage from "./pages/newsletter-subscribers/newsletter-subscriber-create-page";
+import NewsletterSubscriberDetailPage from "./pages/newsletter-subscribers/newsletter-subscriber-detail-page";
+import NewsletterSubscriberEditPage from "./pages/newsletter-subscribers/newsletter-subscriber-edit-page";
+import LikeListPage from "./pages/likes/like-list-page";
+import LikeCreatePage from "./pages/likes/like-create-page";
+import LikeDetailPage from "./pages/likes/like-detail-page";
+import LikeEditPage from "./pages/likes/like-edit-page";
 
 function App() {
 	return (
@@ -42,6 +56,20 @@ function App() {
 								<Route path="posts/create" element={<PostCreatePage />} />
 								<Route path="posts/:id" element={<PostDetailPage />} />
 								<Route path="posts/:id/edit" element={<PostEditPage />} />
+								<Route path="comments" element={<CommentListPage />} />
+								<Route path="comments/:id" element={<CommentDetailPage />} />
+								<Route path="bookmarks" element={<BookmarkListPage />} />
+								<Route path="bookmarks/create" element={<BookmarkCreatePage />} />
+								<Route path="bookmarks/:id" element={<BookmarkDetailPage />} />
+								<Route path="bookmarks/:id/edit" element={<BookmarkEditPage />} />
+								<Route path="newsletter-subscribers" element={<NewsletterSubscriberListPage />} />
+								<Route path="newsletter-subscribers/create" element={<NewsletterSubscriberCreatePage />} />
+								<Route path="newsletter-subscribers/:id" element={<NewsletterSubscriberDetailPage />} />
+								<Route path="newsletter-subscribers/:id/edit" element={<NewsletterSubscriberEditPage />} />
+								<Route path="likes" element={<LikeListPage />} />
+								<Route path="likes/create" element={<LikeCreatePage />} />
+								<Route path="likes/:id" element={<LikeDetailPage />} />
+								<Route path="likes/:id/edit" element={<LikeEditPage />} />
 								<Route path="profiles" element={<ProfileListPage />} />
 								<Route path="profiles/create" element={<ProfileCreatePage />} />
 								<Route path="profiles/:id" element={<ProfileDetailPage />} />
