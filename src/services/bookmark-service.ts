@@ -75,7 +75,13 @@ export const bookmarkService = {
       .insert(bookmark)
       .select("*, post:posts(id,title,slug)")
       .single();
-    if (error) throw new Error(error.message);
+    if (error) {
+      // user_id + post_id already exists (composite PK)
+      if (error.code === "23505") {
+        throw new Error("Bu gönderi zaten kaydedilmiş.");
+      }
+      throw new Error(error.message);
+    }
     return data as Bookmark;
   },
 

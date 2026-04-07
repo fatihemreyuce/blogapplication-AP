@@ -47,25 +47,20 @@ export default function DarkModeToggle({ className }: DarkModeToggleProps) {
 	return (
 		<button
 			onClick={toggleTheme}
-			className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
-				isDark ? "bg-primary" : "bg-muted"
+			className={`inline-flex h-9 items-center gap-2 rounded-xl border px-3 text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
+				isDark
+					? "border-brand-blue/40 bg-gradient-to-r from-brand-blue/20 to-brand-purple/20 text-foreground shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+					: "border-border/70 bg-muted/70 text-muted-foreground hover:text-foreground"
 			} ${className || ""}`}
 			aria-label="Toggle dark mode"
+			title={isDark ? "Koyu mod açık" : "Açık mod açık"}
 		>
-			{/* Icons */}
-			<div className="absolute left-1 flex items-center justify-center">
-				<Sun className="h-3 w-3 text-muted-foreground" />
-			</div>
-			<div className="absolute right-1 flex items-center justify-center">
-				<Moon className="h-3 w-3 text-muted-foreground" />
-			</div>
-			
-			{/* Slider */}
-			<span
-				className={`inline-block h-4 w-4 transform rounded-full bg-background transition-transform duration-200 ease-in-out ${
-					isDark ? "translate-x-6" : "translate-x-1"
-				}`}
-			/>
+			{isDark ? (
+				<Moon className="h-4 w-4" />
+			) : (
+				<Sun className="h-4 w-4 text-amber-500" />
+			)}
+			<span className="hidden sm:inline">{isDark ? "Koyu" : "Açık"}</span>
 		</button>
 	);
 }

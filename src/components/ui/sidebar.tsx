@@ -206,14 +206,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </span>
         </div>
 
-        {/* Close button — only on mobile */}
-        <button
-          onClick={onClose}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-foreground lg:hidden"
-          aria-label="Menüyü kapat"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        <div className="flex items-center gap-2">
+          <DarkModeToggle />
+          {/* Close button — only on mobile */}
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-foreground lg:hidden"
+            aria-label="Menüyü kapat"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       {/* ── Navigation ───────────────────────────────── */}
@@ -239,13 +242,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* ── Footer ───────────────────────────────────── */}
       <div className="shrink-0 border-t border-border/40 p-3 space-y-1">
-
-        {/* Theme toggle row */}
-        <div className="flex items-center justify-between rounded-xl px-3 py-2.5">
-          <span className="text-sm font-medium text-muted-foreground">Tema</span>
-          <DarkModeToggle />
-        </div>
-
         {/* Logout button */}
         <button
           onClick={handleLogout}
