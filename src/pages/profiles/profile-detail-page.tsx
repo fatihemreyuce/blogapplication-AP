@@ -172,19 +172,19 @@ export default function ProfileDetailPage() {
                 opacity: 0.15,
               }}
             />
-            <div className="absolute left-6 top-8 flex items-end gap-5">
-              <div className="rounded-2xl ring-4 ring-card">
+            <div className="absolute left-4 right-4 top-8 flex items-end gap-3 sm:left-6 sm:right-auto sm:gap-5">
+              <div className="shrink-0 rounded-2xl ring-4 ring-card">
                 <ProfileAvatar profile={profile} />
               </div>
-              <div className="pb-1">
-                <h1 className="text-xl font-bold text-foreground">
+              <div className="min-w-0 flex-1 pb-1">
+                <h1 className="line-clamp-2 text-lg font-bold text-foreground sm:text-xl">
                   {profile.full_name ?? profile.username}
                 </h1>
-                <p className="text-sm text-muted-foreground">@{profile.username}</p>
+                <p className="truncate text-sm text-muted-foreground">@{profile.username}</p>
               </div>
             </div>
             {/* badges top-right */}
-            <div className="absolute right-5 top-4 flex gap-2">
+            <div className="absolute right-3 top-3 flex flex-wrap gap-1.5 sm:right-5 sm:top-4 sm:gap-2">
               <span
                 className={cn(
                   "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",

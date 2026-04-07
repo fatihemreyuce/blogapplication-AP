@@ -193,7 +193,7 @@ export default function PostCreatePage() {
               </div>
               <div className="space-y-2">
                 {form.series_links.map((link, idx) => (
-                  <div key={idx} className="grid grid-cols-[1fr_130px_48px] gap-2">
+                  <div key={idx} className="grid grid-cols-[1fr_90px_40px] sm:grid-cols-[1fr_130px_48px] gap-2">
                     <Select
                       value={link.series_id || "none"}
                       onValueChange={(v) =>

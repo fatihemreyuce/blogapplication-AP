@@ -67,7 +67,7 @@ function DetailSkeleton() {
   return (
     <div className="space-y-6">
       <div className="h-40 animate-pulse rounded-2xl bg-muted" />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 9 }).map((_, i) => (
           <div key={i} className="h-20 animate-pulse rounded-xl bg-muted" />
         ))}
@@ -136,27 +136,27 @@ export default function PostDetailPage() {
         />
         {post.cover_image && <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-transparent to-card/80" />}
 
-        <div className="absolute left-6 top-14 flex items-end gap-4">
-          <div className="rounded-2xl ring-4 ring-card">
+        <div className="absolute left-4 right-4 top-14 flex items-end gap-3 sm:left-6 sm:right-auto sm:gap-4">
+          <div className="shrink-0 rounded-2xl ring-4 ring-card">
             {post.cover_image ? (
-              <img src={post.cover_image} alt={post.title} className="h-20 w-20 rounded-2xl object-cover" />
+              <img src={post.cover_image} alt={post.title} className="h-16 w-16 rounded-2xl object-cover sm:h-20 sm:w-20" />
             ) : (
               <div
-                className="flex h-20 w-20 items-center justify-center rounded-2xl text-white"
+                className="flex h-16 w-16 items-center justify-center rounded-2xl text-white sm:h-20 sm:w-20"
                 style={{ background: "linear-gradient(135deg, #10b981, #3b82f6)" }}
               >
-                <FileText className="h-9 w-9" />
+                <FileText className="h-7 w-7 sm:h-9 sm:w-9" />
               </div>
             )}
           </div>
-          <div className="pb-1">
-            <h1 className="text-xl font-bold text-foreground">{post.title}</h1>
-            <p className="text-sm text-muted-foreground font-mono">/{post.slug}</p>
+          <div className="min-w-0 flex-1 pb-1">
+            <h1 className="line-clamp-2 text-lg font-bold text-foreground sm:text-xl">{post.title}</h1>
+            <p className="truncate text-sm text-muted-foreground font-mono">/{post.slug}</p>
           </div>
         </div>
 
         {/* Badges */}
-        <div className="absolute right-5 top-4 flex gap-2">
+        <div className="absolute right-3 top-3 flex flex-wrap gap-1.5 sm:right-5 sm:top-4 sm:gap-2">
           <span className={cn("inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold", statusConf.bg, statusConf.text)}>
             {statusConf.label}
           </span>
@@ -168,7 +168,7 @@ export default function PostDetailPage() {
           )}
         </div>
 
-        <div className="h-14" />
+        <div className="h-12 sm:h-14" />
       </div>
 
       {/* Özet */}

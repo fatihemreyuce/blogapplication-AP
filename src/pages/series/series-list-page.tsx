@@ -76,7 +76,7 @@ export default function SeriesListPage() {
 
   return (
     <div className="animate-fade-in space-y-6 p-1">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Series</h1>
           <p className="mt-1 text-sm text-muted-foreground">{stats?.total ?? 0} seri bulundu</p>

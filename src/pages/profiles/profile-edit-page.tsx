@@ -117,7 +117,7 @@ function FormSkeleton() {
   return (
     <div className="space-y-6 rounded-2xl border border-border/50 bg-card p-8">
       <div className="h-14 w-48 animate-pulse rounded-xl bg-muted" />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="space-y-2">
             <div className="h-4 w-24 animate-pulse rounded bg-muted" />

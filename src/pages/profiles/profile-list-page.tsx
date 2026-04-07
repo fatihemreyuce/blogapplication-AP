@@ -462,8 +462,8 @@ export default function ProfileListPage() {
       </div>
 
       {/* ── Filters ── */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="relative w-full sm:flex-1 sm:min-w-0">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Profil ara…"
@@ -473,8 +473,8 @@ export default function ProfileListPage() {
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
+        <div className="flex flex-wrap items-center gap-2">
+          <Filter className="h-4 w-4 shrink-0 text-muted-foreground" />
           <Select
             value={roleFilter}
             onValueChange={(v) => {
@@ -486,7 +486,7 @@ export default function ProfileListPage() {
               setSearchParams(next);
             }}
           >
-            <SelectTrigger className="h-10 w-36 rounded-xl border-border/60 bg-card focus:ring-brand-blue/30">
+            <SelectTrigger className="h-10 w-32 rounded-xl border-border/60 bg-card focus:ring-brand-blue/30">
               <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
@@ -508,7 +508,7 @@ export default function ProfileListPage() {
               setSearchParams(next);
             }}
           >
-            <SelectTrigger className="h-10 w-36 rounded-xl border-border/60 bg-card focus:ring-brand-blue/30">
+            <SelectTrigger className="h-10 w-32 rounded-xl border-border/60 bg-card focus:ring-brand-blue/30">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>

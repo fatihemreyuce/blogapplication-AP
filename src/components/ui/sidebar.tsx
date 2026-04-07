@@ -16,6 +16,7 @@ import {
   LogOut,
   PenLine,
   Loader2,
+  X,
 } from "lucide-react";
 
 /* ── Nav data ─────────────────────────────────────────── */
@@ -50,9 +51,11 @@ const navigationItems: NavItem[] = [
 function NavItemLink({
   item,
   animIndex,
+  onNavigate,
 }: {
   item: NavItem;
   animIndex: number;
+  onNavigate?: () => void;
 }) {
   const Icon = item.icon;
   return (
@@ -61,6 +64,7 @@ function NavItemLink({
       end={item.end}
       style={{ animationDelay: `${animIndex * 55}ms` }}
       className="block animate-slide-in-left"
+      onClick={onNavigate}
     >
       {({ isActive }) => (
         <div
@@ -142,7 +146,12 @@ function SectionLabel({ label }: { label: string }) {
 }
 
 /* ── Main sidebar ─────────────────────────────────────── */
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { logout, isActionable, isLoading } = useLoginState();
   const navigate = useNavigate();
 
@@ -159,8 +168,14 @@ export default function Sidebar() {
   let animIdx = 0;
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-border/50 bg-card/80 backdrop-blur-xl">
-
+    <aside
+      className={cn(
+        "fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-border/50 bg-card/80 backdrop-blur-xl",
+        "transition-transform duration-300 ease-in-out",
+        "lg:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full",
+      )}
+    >
       {/* Top brand accent line */}
       <div
         className="h-[2px] w-full shrink-0"
@@ -171,7 +186,7 @@ export default function Sidebar() {
       />
 
       {/* ── Header / Logo ────────────────────────────── */}
-      <div className="flex h-16 shrink-0 items-center border-b border-border/40 px-5">
+      <div className="flex h-14 shrink-0 items-center justify-between border-b border-border/40 px-5">
         <div className="flex items-center gap-3">
           {/* Brand icon */}
           <div
@@ -190,6 +205,15 @@ export default function Sidebar() {
             BlogPanel
           </span>
         </div>
+
+        {/* Close button — only on mobile */}
+        <button
+          onClick={onClose}
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-foreground lg:hidden"
+          aria-label="Menüyü kapat"
+        >
+          <X className="h-4 w-4" />
+        </button>
       </div>
 
       {/* ── Navigation ───────────────────────────────── */}
@@ -204,7 +228,7 @@ export default function Sidebar() {
                 {items.map((item) => {
                   const idx = animIdx++;
                   return (
-                    <NavItemLink key={item.to} item={item} animIndex={idx} />
+                    <NavItemLink key={item.to} item={item} animIndex={idx} onNavigate={onClose} />
                   );
                 })}
               </div>
