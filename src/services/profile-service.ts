@@ -16,7 +16,7 @@ export const profileService = {
 
     if (search?.trim()) {
       query = query.or(
-        `username.ilike.%${search}%,full_name.ilike.%${search}%`,
+        `username.ilike.%${search}%,full_name.ilike.%${search}%,email.ilike.%${search}%`,
       );
     }
     if (role && role !== "all") {
@@ -106,14 +106,41 @@ export const profileService = {
       .update(profile)
       .eq("id", id)
       .select()
-      .single();
+      .maybeSingle();
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      if (error.code === "42501") {
+        throw new Error("Guncelleme yetkiniz yok (RLS policy).");
+      }
+      throw new Error(error.message);
+    }
+
+    if (!data) {
+      throw new Error("Kayit guncellenemedi. RLS policy veya filtre nedeniyle 0 satir etkilendi.");
+    }
+
     return data as Profile;
   },
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.from("profiles").delete().eq("id", id);
-    if (error) throw new Error(error.message);
+    const { data, error } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", id)
+      .select("id");
+
+    if (error) {
+      if (error.code === "23503") {
+        throw new Error("Bu profile bağlı kayıtlar var, önce ilişkili verileri silmelisiniz.");
+      }
+      if (error.code === "42501") {
+        throw new Error("Silme yetkiniz yok (RLS policy).");
+      }
+      throw new Error(error.message);
+    }
+
+    if (!data || data.length === 0) {
+      throw new Error("Profil silinemedi. Yetki (RLS) veya filtre nedeniyle kayıt etkilenmedi.");
+    }
   },
 };

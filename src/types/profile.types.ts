@@ -4,6 +4,8 @@ export type ProfileRole = "admin" | "editor" | "viewer";
 export interface Profile {
   id: string;
   username: string;
+  email: string | null;
+  password: string | null;
   full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
@@ -15,6 +17,8 @@ export interface Profile {
 export interface ProfileInsert {
   id?: string;
   username: string;
+  email?: string | null;
+  password?: string | null;
   full_name?: string | null;
   avatar_url?: string | null;
   bio?: string | null;
@@ -24,6 +28,8 @@ export interface ProfileInsert {
 
 export interface ProfileUpdate {
   username?: string;
+  email?: string | null;
+  password?: string | null;
   full_name?: string | null;
   avatar_url?: string | null;
   bio?: string | null;

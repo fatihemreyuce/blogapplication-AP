@@ -382,8 +382,8 @@ export default function ProfileListPage() {
     try {
       await deleteMutation.mutateAsync(deleteTarget.id);
       toast.success(`${deleteTarget.full_name ?? deleteTarget.username} silindi.`);
-    } catch {
-      toast.error("Silinemedi.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Silinemedi.");
     } finally {
       setDeleteTarget(null);
     }

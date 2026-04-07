@@ -8,6 +8,8 @@ import {
   User,
   AlignLeft,
   ShieldCheck,
+  Mail,
+  LockKeyhole,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -140,6 +142,8 @@ export default function ProfileEditPage() {
   const [form, setForm] = useState({
     full_name: "",
     username: "",
+    email: "",
+    password: "",
     bio: "",
     avatar_url: "",
     role: "viewer" as ProfileRole,
@@ -153,6 +157,8 @@ export default function ProfileEditPage() {
       setForm({
         full_name: profile.full_name ?? "",
         username: profile.username,
+        email: profile.email ?? "",
+        password: "",
         bio: profile.bio ?? "",
         avatar_url: profile.avatar_url ?? "",
         role: profile.role,
@@ -173,6 +179,8 @@ export default function ProfileEditPage() {
         id,
         data: {
           username: form.username,
+          email: form.email || null,
+          ...(form.password.trim() ? { password: form.password } : {}),
           full_name: form.full_name || null,
           bio: form.bio || null,
           avatar_url: form.avatar_url || null,
@@ -258,6 +266,27 @@ export default function ProfileEditPage() {
                       value={form.username}
                       onChange={(e) => set("username")(e.target.value)}
                       required
+                      disabled={isPending}
+                      className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"
+                    />
+                  </Field>
+                  <Field label="E-posta" icon={Mail} required>
+                    <Input
+                      type="email"
+                      placeholder="john@example.com"
+                      value={form.email}
+                      onChange={(e) => set("email")(e.target.value)}
+                      required
+                      disabled={isPending}
+                      className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"
+                    />
+                  </Field>
+                  <Field label="Şifre" icon={LockKeyhole} hint="Boş bırakırsan mevcut şifre değişmez.">
+                    <Input
+                      type="password"
+                      placeholder="Yeni şifre (opsiyonel)"
+                      value={form.password}
+                      onChange={(e) => set("password")(e.target.value)}
                       disabled={isPending}
                       className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"
                     />

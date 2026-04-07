@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Loader2, User, AlignLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, User, AlignLeft, ShieldCheck, Mail, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -133,6 +133,8 @@ export default function ProfileCreatePage() {
   const [form, setForm] = useState({
     full_name: "",
     username: "",
+    email: "",
+    password: "",
     bio: "",
     avatar_url: "",
     role: "viewer" as ProfileRole,
@@ -147,6 +149,8 @@ export default function ProfileCreatePage() {
     try {
       await createMutation.mutateAsync({
         username: form.username,
+        email: form.email || null,
+        password: form.password || null,
         full_name: form.full_name || null,
         bio: form.bio || null,
         avatar_url: form.avatar_url || null,
@@ -217,6 +221,28 @@ export default function ProfileCreatePage() {
                     placeholder="johndoe"
                     value={form.username}
                     onChange={(e) => set("username")(e.target.value)}
+                    required
+                    disabled={isPending}
+                    className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"
+                  />
+                </Field>
+                <Field label="E-posta" icon={Mail} required>
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    value={form.email}
+                    onChange={(e) => set("email")(e.target.value)}
+                    required
+                    disabled={isPending}
+                    className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"
+                  />
+                </Field>
+                <Field label="Şifre" icon={LockKeyhole} required>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={(e) => set("password")(e.target.value)}
                     required
                     disabled={isPending}
                     className="h-11 rounded-xl border-border/60 bg-muted/30 focus-visible:ring-brand-blue/30"

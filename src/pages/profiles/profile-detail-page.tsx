@@ -9,6 +9,8 @@ import {
   Calendar,
   AlignLeft,
   ShieldCheck,
+  Mail,
+  LockKeyhole,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DeleteProfileModal } from "@/components/profile/delete-profile-modal";
@@ -100,8 +102,8 @@ export default function ProfileDetailPage() {
       await deleteMutation.mutateAsync(profile.id);
       toast.success("Profil silindi.");
       navigate("/profiles");
-    } catch {
-      toast.error("Silinemedi.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Silinemedi.");
     } finally {
       setShowDelete(false);
     }
@@ -228,10 +230,22 @@ export default function ProfileDetailPage() {
               delay="100ms"
             />
             <InfoCard
+              icon={Mail}
+              label="E-posta"
+              value={profile.email}
+              delay="150ms"
+            />
+            <InfoCard
+              icon={LockKeyhole}
+              label="Şifre"
+              value={profile.password ? "********" : null}
+              delay="200ms"
+            />
+            <InfoCard
               icon={AlignLeft}
               label="Bio"
               value={profile.bio}
-              delay="150ms"
+              delay="250ms"
             />
             <InfoCard
               icon={Calendar}
@@ -241,7 +255,7 @@ export default function ProfileDetailPage() {
                 month: "long",
                 day: "numeric",
               })}
-              delay="200ms"
+              delay="300ms"
             />
           </div>
         </>
